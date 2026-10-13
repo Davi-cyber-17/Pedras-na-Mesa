@@ -1,1 +1,0 @@
-# Pedras-na-Mesa
