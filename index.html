@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#04060d">
+  <title>Pedras na Mesa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- MENU -->
+  <section id="screen-menu" class="screen active">
+    <div class="center-col">
+      <div class="tipline" aria-hidden="true">
+        <i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i>
+        <i style="--d:4"></i><i style="--d:5"></i><i style="--d:6"></i><i style="--d:7"></i><i style="--d:8"></i>
+      </div>
+      <h1 class="logo">Pedras na Mesa</h1>
+      <p class="sub">De 2 a 4 jogadores</p>
+
+      <label class="field">
+        <span>Seu nome</span>
+        <input id="playerName" maxlength="14" placeholder="Jogador" autocomplete="off">
+      </label>
+
+      <div class="stack">
+        <button class="btn primary" id="btnOnline">Modo Online</button>
+        <button class="btn" id="btnLocal">Modo Local</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONLINE -->
+  <section id="screen-online" class="screen">
+    <div class="center-col">
+      <h2>Modo Online</h2>
+
+      <div class="panel">
+        <h3>Criar sala</h3>
+        <p>Você recebe um código para passar aos amigos. Cada um joga no seu aparelho: PC, celular ou tablet.</p>
+        <button class="btn primary" id="btnCreate">Criar sala</button>
+      </div>
+
+      <div class="panel">
+        <h3>Entrar em uma sala</h3>
+        <p>Digite o código que o anfitrião enviou.</p>
+        <div class="row-inline">
+          <input id="roomCode" class="code-input" maxlength="5" placeholder="ABCDE" autocomplete="off" autocapitalize="characters">
+          <button class="btn primary" id="btnJoin">Entrar</button>
+        </div>
+      </div>
+
+      <p id="onlineStatus" class="status" role="status"></p>
+      <button class="btn ghost" id="btnOnlineBack">Voltar</button>
+    </div>
+  </section>
+
+  <!-- LOCAL -->
+  <section id="screen-local" class="screen">
+    <div class="center-col">
+      <h2>Modo Local</h2>
+      <p class="sub">Você joga contra o computador neste aparelho.</p>
+
+      <div class="panel">
+        <h3>Quantidade de jogadores</h3>
+        <div class="seg">
+          <label><input type="radio" name="lp" value="2" checked><span>2</span></label>
+          <label><input type="radio" name="lp" value="3"><span>3</span></label>
+          <label><input type="radio" name="lp" value="4"><span>4</span></label>
+        </div>
+        <h3>Pontos para vencer</h3>
+        <select id="localTarget" class="select">
+          <option value="50">50 pontos</option>
+          <option value="100" selected>100 pontos</option>
+          <option value="150">150 pontos</option>
+        </select>
+      </div>
+
+      <button class="btn primary" id="btnStartLocal">Começar partida</button>
+      <button class="btn ghost" id="btnLocalBack">Voltar</button>
+    </div>
+  </section>
+
+  <!-- LOBBY -->
+  <section id="screen-lobby" class="screen">
+    <div class="center-col">
+      <h2>Sala de espera</h2>
+      <div class="codebox">
+        <span class="codelabel">Código da sala</span>
+        <strong id="lobbyCode" class="bigcode">-----</strong>
+        <div class="row-inline">
+          <button class="btn small" id="btnCopyCode">Copiar código</button>
+          <button class="btn small" id="btnCopyLink">Convidar amigos</button>
+        </div>
+      </div>
+
+      <div id="lobbySlots" class="slots"></div>
+
+      <div id="hostControls" class="panel" hidden>
+        <div class="row-inline spread">
+          <button class="btn small" id="btnAddBot">Adicionar bot</button>
+          <select id="lobbyTarget" class="select">
+            <option value="50">50 pontos</option>
+            <option value="100">100 pontos</option>
+            <option value="150">150 pontos</option>
+          </select>
+        </div>
+        <button class="btn primary" id="btnStart">Iniciar partida</button>
+      </div>
+      <p id="guestNote" class="status" hidden>Aguardando o anfitrião iniciar a partida…</p>
+
+      <button class="btn ghost" id="btnLobbyLeave">Sair da sala</button>
+    </div>
+  </section>
+
+  <!-- GAME -->
+  <section id="screen-game" class="screen">
+    <header class="topbar">
+      <button class="chip chip-btn" id="btnLeave">Sair</button>
+      <span class="chip" id="chipRound">Rodada 1</span>
+      <span class="chip" id="chipTarget">Meta 100</span>
+      <span class="chip" id="chipPile">Monte 0</span>
+      <span class="chip net" id="chipNet" hidden><i class="dot"></i><span>Online</span></span>
+      <span class="chip grow" id="chipRoom"></span>
+    </header>
+
+    <div class="table n2" id="table">
+      <div class="seat top" id="seat-top"></div>
+      <div class="seat left" id="seat-left"></div>
+      <main class="board" id="board">
+        <div class="chain" id="chain"></div>
+      </main>
+      <div class="seat right" id="seat-right"></div>
+    </div>
+
+    <footer class="me">
+      <div class="statusbar">
+        <div class="stext">
+          <span id="statusText"></span>
+          <small id="statusLog"></small>
+        </div>
+        <button class="btn small primary" id="btnDraw" hidden>Comprar peça</button>
+      </div>
+      <div class="hand" id="hand"></div>
+      <div class="pill me-pill" id="mePill"></div>
+    </footer>
+
+    <div class="modal" id="modal" hidden></div>
+  </section>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
